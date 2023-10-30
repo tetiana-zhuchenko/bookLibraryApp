@@ -1,9 +1,15 @@
-import { useSelector } from 'react-redux'
-import './BookList.css'
+import { useSelector, useDispatch } from 'react-redux'
 import { nanoid } from '@reduxjs/toolkit'
+import './BookList.css'
+import { deleteBook } from '../../redux/books/actionCreators'
 
 const BookList = () => {
   const books = useSelector((state) => state.books)
+  const dispatch = useDispatch()
+
+  const handleDeleteBook = (id) => {
+    dispatch(deleteBook(id))
+  }
 
   return (
     <div className="app-block book-list">
@@ -16,6 +22,11 @@ const BookList = () => {
             <li key={nanoid()}>
               <div className="book-info">
                 {++i}. {book.title} by <strong>{book.author}</strong>
+              </div>
+              <div className="book-actions">
+                <button onClick={() => handleDeleteBook(book.id)}>
+                  Delete book
+                </button>
               </div>
             </li>
           ))}
